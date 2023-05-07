@@ -1,37 +1,25 @@
 import unittest
 from builtins import range, len, print
 
+def snail(map):
+    nmap = []
+    top, right, bottom, left = 0, len(map) - 1, len(map) - 1, 0
 
-def snail(matrix):
-    if not matrix:
-        return []
-    result = []
-    top, bottom, left, right = 0, len(matrix) - 1, 0, len(matrix[0]) - 1
-
-    while top <= bottom and left <= right:
-        # Traverse right
+    while (top <= bottom and left <= right):
         for i in range(left, right + 1):
-            result.append(matrix[top][i])
+            nmap.append(map[top][i])
         top += 1
-
-        # Traverse down
         for i in range(top, bottom + 1):
-            result.append(matrix[i][right])
+            nmap.append(map[i][right])
         right -= 1
+        for i in range(right, left - 1, -1):
+            nmap.append(map[bottom][i])
+        bottom -= 1
+        for i in range(bottom, top - 1, -1):
+            nmap.append(map[i][left])
+        left += 1
+    return nmap
 
-        # Traverse left
-        if top <= bottom:
-            for i in range(right, left - 1, -1):
-                result.append(matrix[bottom][i])
-            bottom -= 1
-
-        # Traverse up
-        if left <= right:
-            for i in range(bottom, top - 1, -1):
-                result.append(matrix[i][left])
-            left += 1
-
-    return result
 
 class TestSnail(unittest.TestCase):
     def test_snail(self):
